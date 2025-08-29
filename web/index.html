@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  
+  <title>Green Gold - Premium Cannabis Products, Wellness, and Education</title>
+  <meta name="description" content="Green Gold is your trusted source for premium cannabis products in Uganda. Explore our selection of flowers, edibles, and wellness accessories, with educational content to guide your journey.">
+  <meta name="keywords" content="cannabis, wellness, edibles, flowers, health education, Green Gold, Uganda">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Green Gold">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <link rel="manifest" href="manifest.json">
+
+  <script>
+    var serviceWorkerVersion = null;
+  </script>
+  <script src="flutter.js" defer></script>
+
+  <style>
+    /* Basic styles for the page */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #0D0D0D; 
+    }
+
+    /* FIX: Centering styles are now in a dedicated 'loading' class */
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-family: sans-serif;
+      color: white;
+    }
+
+    .loader-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .loader-text {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .progress-bar {
+      width: 100px;
+      height: 4px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-bar-inner {
+      width: 30%;
+      height: 100%;
+      background-color: #008000;
+      animation: loading 2s infinite;
+    }
+    @keyframes loading {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(200%); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+
+</head>
+<body class="loading">
+
+  <div id="loading-indicator" class="loader-container">
+    <div class="loader-text">Green Gold</div>
+    <div class="progress-bar">
+      <div class="progress-bar-inner"></div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('load', function(ev) {
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            var loadingIndicator = document.getElementById("loading-indicator");
+            if (loadingIndicator) {
+              loadingIndicator.remove();
+            }
+
+            // FIX: This new line removes the centering styles from the body 
+            // before the Flutter app starts, allowing it to fill the screen.
+            document.body.classList.remove("loading");
+
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

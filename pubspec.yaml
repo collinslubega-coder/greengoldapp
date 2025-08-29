@@ -1,0 +1,87 @@
+# pubspec.yaml
+
+name: green_gold
+description: "Green Gold: Your comprehensive app for cannabis products, health education, and curated wellness content. Explore strains, shop oils, edibles, and accessories, learn about benefits, safety, and general well-being, all in one place."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  provider: ^6.1.2
+  intl: ^0.19.0
+  connectivity_plus: ^6.0.3
+  shared_preferences: ^2.2.3
+  url_launcher: ^6.3.0
+  uuid: ^4.4.0
+  collection: ^1.18.0
+  crypto: ^3.0.3
+  flutter_svg: ^2.0.10+1
+  cached_network_image: ^3.3.1
+  flutter_floating_bottom_bar: ^1.2.0
+  form_field_validator: ^1.1.0
+  dropdown_search: ^5.0.6
+  image_picker: ^1.1.2
+  supabase_flutter: ^2.5.5
+  pdf: ^3.11.0
+  # Updated printing to a version compatible with the new share_plus
+  printing: ^5.13.1
+  # Updated share_plus as suggested by the error message
+  share_plus: ^11.1.0
+  path_provider: ^2.1.3
+  syncfusion_flutter_charts: ^26.2.4
+  flutter_local_notifications: ^17.2.1+2
+  app_links: ^6.3.0
+  just_audio: ^0.9.36
+  file_picker: ^8.0.0+1
+  just_audio_background: ^0.0.1-beta.17
+  home_widget: ^0.8.0
+  curved_navigation_bar: ^1.0.6
+  tmdb_api: ^2.2.3
+  flutter_staggered_grid_view: ^0.7.0
+  intl_phone_field: ^3.2.0
+  http: ^1.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: "^0.13.1"
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+    - assets/Illustration/
+    - assets/logo/
+
+  fonts:
+    - family: Grandis Extended
+      fonts:
+        - asset: assets/fonts/grandis_extended/GrandisExtended-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/grandis_extended/GrandisExtended-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/grandis_extended/GrandisExtended-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/grandis_extended/GrandisExtended-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/grandis_extended/GrandisExtended-Black.ttf
+          weight: 900
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo/logo.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/logo/logo.png"
+  min_sdk_android: 24
