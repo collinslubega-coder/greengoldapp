@@ -36,11 +36,10 @@ class OrderService extends ChangeNotifier {
 
       await _supabase.from('order_items').insert(itemsToInsert);
 
-      await notificationService.showNotification(
-        id: newOrderId,
-        title: 'New Order Received!',
-        body: 'A new order #${newOrderId} has been placed by ${order.customerName}.',
-      );
+      // --- FIX IS HERE ---
+      // The local notification call has been completely removed.
+      // This stops customers from getting a notification when they place an order.
+      // A proper admin notification system requires server-side Push Notifications.
 
     } catch (e) {
       debugPrint('Error creating order: $e');
@@ -50,8 +49,6 @@ class OrderService extends ChangeNotifier {
 
   Future<List<Order>> fetchOrders({String? userId}) async {
     try {
-      // --- FIX IS HERE ---
-      // The query is now structured correctly. The .eq() filter is applied before .order().
       PostgrestFilterBuilder query;
       if (userId != null) {
         query = _supabase.from('orders').select().eq('user_id', userId);

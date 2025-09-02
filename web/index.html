@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="$FLUTTER_BASE_HREF">
+  <base href="/">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -20,70 +20,49 @@
   <link rel="manifest" href="manifest.json">
 
   <script>
+    // The value below is injected by flutter build, do not touch.
     var serviceWorkerVersion = null;
   </script>
   <script src="flutter.js" defer></script>
 
   <style>
-    /* Basic styles for the page */
-    body, html {
+    body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      background-color: #0D0D0D; 
     }
-
-    /* FIX: Centering styles are now in a dedicated 'loading' class */
-    .loading {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      font-family: sans-serif;
-      color: white;
-    }
-
-    .loader-container {
+    .loading-container {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      height: 100vh;
+      width: 100%;
+      background-color: #1a1a1a; /* A dark background color */
+      font-family: sans-serif;
+      color: #ffffff;
+      transition: opacity 0.5s ease-out;
     }
-    .loader-text {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
+    .loader {
+      border: 6px solid #444; /* Lighter grey for the track */
+      border-top: 6px solid #4CAF50; /* Green Gold primary color */
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1.5s linear infinite;
     }
-    .progress-bar {
-      width: 100px;
-      height: 4px;
-      background-color: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .progress-bar-inner {
-      width: 30%;
-      height: 100%;
-      background-color: #008000;
-      animation: loading 2s infinite;
-    }
-    @keyframes loading {
-      0% { transform: translateX(-100%); }
-      50% { transform: translateX(200%); }
-      100% { transform: translateX(-100%); }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 
 </head>
-<body class="loading">
-
-  <div id="loading-indicator" class="loader-container">
-    <div class="loader-text">Green Gold</div>
-    <div class="progress-bar">
-      <div class="progress-bar-inner"></div>
-    </div>
+<body>
+  <div id="loading_indicator" class="loading-container">
+    <div class="loader"></div>
+    <p style="margin-top: 20px; font-size: 16px;">Launching Green Gold...</p>
   </div>
-
+  
   <script>
     window.addEventListener('load', function(ev) {
       _flutter.loader.loadEntrypoint({
@@ -92,15 +71,15 @@
         },
         onEntrypointLoaded: function(engineInitializer) {
           engineInitializer.initializeEngine().then(function(appRunner) {
-            var loadingIndicator = document.getElementById("loading-indicator");
+            // --- NEW: Hide the loader once Flutter is ready ---
+            var loadingIndicator = document.getElementById("loading_indicator");
             if (loadingIndicator) {
-              loadingIndicator.remove();
+              // Optional: Fade out effect
+              loadingIndicator.style.opacity = '0';
+              setTimeout(function() {
+                  loadingIndicator.style.display = 'none';
+              }, 500); // Match timeout with CSS transition duration
             }
-
-            // FIX: This new line removes the centering styles from the body 
-            // before the Flutter app starts, allowing it to fill the screen.
-            document.body.classList.remove("loading");
-
             appRunner.runApp();
           });
         }

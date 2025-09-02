@@ -26,7 +26,6 @@ class EntertainmentCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              // --- FIX IS HERE: The required 'isMovie' argument is now passed ---
               builder: (context) => EntertainmentDetailScreen(item: item, isMovie: isMovie),
             ),
           );
@@ -62,6 +61,26 @@ class EntertainmentCard extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyMedium,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
+                    ),
+                    // New "Read More" button
+                    const SizedBox(height: defaultPadding / 2),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EntertainmentDetailScreen(item: item, isMovie: isMovie),
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        alignment: Alignment.centerLeft,
+                      ),
+                      child: const Text(
+                        'Read More',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),

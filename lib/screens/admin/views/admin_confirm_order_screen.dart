@@ -54,9 +54,29 @@ class _AdminConfirmOrderScreenState extends State<AdminConfirmOrderScreen> {
     final currencyFormatter = NumberFormat.currency(locale: 'en_UG', symbol: 'UGX ');
     final customerName = widget.order.customerName ?? 'Valued Customer';
     final orderId = widget.order.id;
+    
+    // Logic to correctly format the items list
     final items = widget.order.items.map((item) {
       final productName = item.product?.strainName ?? 'Item';
-      return "- $productName (x${item.quantity})";
+      final quantity = item.quantity;
+      final form = item.selectedForm ?? ''; // This will be 'Bud' or 'Pre-roll'
+      final category = item.product?.category ?? '';
+      
+      String unit = 'piece'; // Default unit
+      if (category == 'Flowers') {
+        // For flowers, the unit depends on the form selected by the customer.
+        unit = (form == 'Bud') ? 'gram' : 'piece';
+      } else if (category == 'Edibles') {
+        unit = 'pair';
+      } else if (category == 'Ointments') {
+        unit = 'container';
+      }
+      
+      if (category == 'Flowers') {
+        return "- ${item.product?.type ?? productName} ($form): $quantity $unit";
+      } else {
+        return "- $productName: $quantity $unit";
+      }
     }).join('\n');
     
     final subtotal = widget.order.total ?? 0;
@@ -166,7 +186,6 @@ Thank you for choosing Green Gold!
           Container(
             padding: const EdgeInsets.all(defaultPadding),
             decoration: BoxDecoration(
-              // --- FIX IS HERE: Replaced deprecated .withOpacity() ---
               color: Theme.of(context).colorScheme.surface.withAlpha(128),
               borderRadius: BorderRadius.circular(defaultBorderRadious),
             ),
@@ -184,7 +203,6 @@ Thank you for choosing Green Gold!
                 tooltip: "Send via SMS",
                 onPressed: () => _launchUrl(Uri.parse('sms:$_fullPhoneNumber?body=${Uri.encodeComponent(_messagePreview)}'), "SMS"),
               ),
-              // --- FIX IS HERE: Replaced non-existent Icons.whatsapp ---
               IconButton(
                 icon: const Icon(Icons.chat_bubble_outline, color: Colors.green, size: 30),
                 tooltip: "Send via WhatsApp",

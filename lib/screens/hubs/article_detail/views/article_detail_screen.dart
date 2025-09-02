@@ -16,18 +16,15 @@ class ArticleDetailScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          // This SliverAppBar creates the collapsing header effect
           SliverAppBar(
             expandedHeight: 250.0,
             pinned: true,
-            // --- FIX IS HERE: No title property is set ---
             flexibleSpace: FlexibleSpaceBar(
               background: article.imageUrl != null
                   ? NetworkImageWithLoader(article.imageUrl, radius: 0)
                   : Container(color: Colors.black26),
             ),
           ),
-          // This sliver contains the rest of the page content
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(defaultPadding),
@@ -38,7 +35,7 @@ class ArticleDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        article.title,
+                        article.title ?? 'No Title', 
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       const SizedBox(height: defaultPadding / 2),
@@ -51,6 +48,25 @@ class ArticleDetailScreen extends StatelessWidget {
                         article.body ?? "No content available.",
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.5),
                       ),
+                      // NEW: Sources section
+                      if (article.sources != null && article.sources!.isNotEmpty) ...[
+                        const SizedBox(height: defaultPadding * 2),
+                        Text(
+                          "Sources",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: defaultPadding / 2),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: article.sources!.map((source) => Padding(
+                            padding: const EdgeInsets.only(bottom: 4.0),
+                            child: Text(
+                              '• $source',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          )).toList(),
+                        ),
+                      ],
                     ],
                   ),
                 ),

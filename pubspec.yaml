@@ -28,6 +28,7 @@ dependencies:
   dropdown_search: ^5.0.6
   image_picker: ^1.1.2
   supabase_flutter: ^2.5.5
+  csv: ^5.0.0
   pdf: ^3.11.0
   # Updated printing to a version compatible with the new share_plus
   printing: ^5.13.1
@@ -46,6 +47,7 @@ dependencies:
   flutter_staggered_grid_view: ^0.7.0
   intl_phone_field: ^3.2.0
   http: ^1.2.1
+  youtube_player_flutter: ^9.1.2
 
 dev_dependencies:
   flutter_test:

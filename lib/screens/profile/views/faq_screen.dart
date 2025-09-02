@@ -30,15 +30,11 @@ class FaqScreen extends StatelessWidget {
           ),
           FaqItem(
             question: "What payment methods do you accept?",
-            answer: "We currently accept Cash on Delivery. You can pay our delivery agent in cash when your order arrives.",
+            answer: "We currently accept Mobile Money payments only. You'll receive payment instructions after placing order.",
           ),
           FaqItem(
             question: "How long does delivery usually take?",
             answer: "We strive for prompt delivery. Once your order is confirmed, our team will provide an estimated delivery time. Most local deliveries are completed within a few hours to the same day.",
-          ),
-          FaqItem(
-            question: "Are your products legally sourced?",
-            answer: "Yes, all our cannabis products are sourced from licensed cultivators and adhere to all local regulations regarding sale and distribution. We prioritize safety, quality, and compliance.",
           ),
           FaqItem(
             question: "How can I contact customer support?",

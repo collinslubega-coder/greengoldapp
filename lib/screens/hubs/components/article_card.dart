@@ -49,10 +49,22 @@ class ArticleCard extends StatelessWidget {
                     ),
                   const SizedBox(height: defaultPadding / 2),
                   Text(
-                    article.title,
+                    article.title ?? 'No Title', // FIX: Add ?? 'No Title'
                     style: Theme.of(context).textTheme.titleLarge,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: defaultPadding / 2),
+                  TextButton(
+                    onPressed: onTap,
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.centerLeft,
+                    ),
+                    child: const Text(
+                      'Read More',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),

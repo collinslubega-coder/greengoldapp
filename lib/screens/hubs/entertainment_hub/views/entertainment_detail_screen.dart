@@ -3,10 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:green_gold/components/network_image_with_loader.dart';
 import 'package:green_gold/constants.dart';
-import 'package:green_gold/route/route_constants.dart';
 import 'package:green_gold/services/entertainment_service.dart';
 import 'package:green_gold/screens/hubs/components/cast_card.dart';
-import '../components/vibe_score_display.dart';
+import 'package:green_gold/screens/hubs/entertainment_hub/components/vibe_score_display.dart';
+import 'package:green_gold/screens/hubs/entertainment_hub/views/cast_detail_screen.dart';
+import '../components/horizontal_entertainment_list.dart';
 
 class EntertainmentDetailScreen extends StatefulWidget {
   final EntertainmentItem item;
@@ -24,11 +25,9 @@ class _EntertainmentDetailScreenState extends State<EntertainmentDetailScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.isMovie) {
-      _castFuture = _service.getMovieCast(widget.item.id);
-    } else {
-      _castFuture = _service.getTvShowCast(widget.item.id);
-    }
+    _castFuture = widget.isMovie
+        ? _service.getMovieCast(widget.item.id)
+        : _service.getTvShowCast(widget.item.id);
   }
 
   @override
@@ -39,8 +38,8 @@ class _EntertainmentDetailScreenState extends State<EntertainmentDetailScreen> {
           SliverAppBar(
             expandedHeight: 450.0,
             pinned: true,
-            // --- FIX IS HERE: No title property is set ---
             flexibleSpace: FlexibleSpaceBar(
+              // --- CLEANED: Removed the Stack and play button ---
               background: NetworkImageWithLoader(widget.item.imageUrl, radius: 0),
             ),
           ),
@@ -56,11 +55,12 @@ class _EntertainmentDetailScreenState extends State<EntertainmentDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                           Text(
+                          Text(
                             widget.item.title,
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
-                          if (widget.item.subtitle != null && widget.item.subtitle!.isNotEmpty)
+                          if (widget.item.subtitle != null &&
+                              widget.item.subtitle!.isNotEmpty)
                             Padding(
                               padding: const EdgeInsets.only(top: 4.0),
                               child: Text(
@@ -81,7 +81,10 @@ class _EntertainmentDetailScreenState extends State<EntertainmentDetailScreen> {
                           const SizedBox(height: defaultPadding / 2),
                           Text(
                             widget.item.overview,
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(height: 1.5),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(height: 1.5),
                           ),
                         ],
                       ),
@@ -98,26 +101,34 @@ class _EntertainmentDetailScreenState extends State<EntertainmentDetailScreen> {
                     child: FutureBuilder<List<CastMember>>(
                       future: _castFuture,
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
-                        if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
-                          return const Center(child: Text("Cast information not available."));
+                        if (snapshot.hasError ||
+                            !snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return const Center(
+                              child: Text("Cast information not available."));
                         }
                         final cast = snapshot.data!;
                         return ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: cast.length,
-                          separatorBuilder: (context, index) => const SizedBox(width: defaultPadding),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: defaultPadding),
                           itemBuilder: (context, index) {
                             final castMember = cast[index];
                             return CastCard(
                               castMember: castMember,
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context, 
-                                  castDetailScreenRoute, 
-                                  arguments: castMember.id
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CastDetailScreen(
+                                        personId: castMember.id),
+                                  ),
                                 );
                               },
                             );
@@ -125,6 +136,15 @@ class _EntertainmentDetailScreenState extends State<EntertainmentDetailScreen> {
                         );
                       },
                     ),
+                  ),
+                  const SizedBox(height: defaultPadding * 2),
+                  Text("Recommendations",
+                      style: Theme.of(context).textTheme.titleLarge),
+                  const SizedBox(height: defaultPadding),
+                  HorizontalEntertainmentList(
+                    fetchFunction: () => widget.isMovie
+                        ? _service.getMovieRecommendations(widget.item.id)
+                        : _service.getTvShowRecommendations(widget.item.id),
                   ),
                 ],
               ),

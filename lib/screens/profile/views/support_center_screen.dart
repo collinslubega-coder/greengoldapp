@@ -54,7 +54,6 @@ class _SupportCenterScreenState extends State<SupportCenterScreen> {
     final settings = context.watch<SettingsService>().settings;
     final headOfficeNumber = settings['head_office_whatsapp'] ?? 'Not set';
     final supportEmail = settings['support_email'] ?? 'Not set';
-    final tiktokLink = settings['tiktok_link'] ?? 'Not set';
     final instagramLink = settings['instagram_link'] ?? 'Not set';
 
     return Scaffold(
@@ -90,12 +89,6 @@ class _SupportCenterScreenState extends State<SupportCenterScreen> {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: defaultPadding / 2),
-            ContactCard(
-              title: "TikTok",
-              contact: "Follow for updates and offers",
-              icon: Icons.music_note_outlined,
-              onTap: () => _launchUrl(tiktokLink),
-            ),
             ContactCard(
               title: "Instagram",
               contact: "Join our community",

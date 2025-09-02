@@ -41,14 +41,13 @@ class _AdminHubsScreenState extends State<AdminHubsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // --- FIX IS HERE ---
       appBar: AppBar(
         title: const Text("Manage Hub Articles"),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _navigateAndRefresh(const AddEditArticleScreen()),
-        child: const Icon(Icons.add),
         tooltip: 'Add New Article',
+        child: const Icon(Icons.add),
       ),
       body: FutureBuilder<List<Article>>(
         future: _articlesFuture,
@@ -56,7 +55,10 @@ class _AdminHubsScreenState extends State<AdminHubsScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+          if (snapshot.hasError) {
+            return Center(child: Text("Error: ${snapshot.error}"));
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text("No articles found. Tap '+' to add one."));
           }
           final articles = snapshot.data!;
@@ -68,8 +70,12 @@ class _AdminHubsScreenState extends State<AdminHubsScreen> {
               return Card(
                 margin: const EdgeInsets.only(bottom: defaultPadding / 2),
                 child: ListTile(
-                  title: Text(article.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-                  subtitle: Text(article.hub),
+                  title: Text(
+                    article.title ?? 'No Title', 
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(article.hub ?? 'No Hub'),
                   trailing: const Icon(Icons.edit_outlined),
                   onTap: () => _navigateAndRefresh(AddEditArticleScreen(article: article)),
                 ),

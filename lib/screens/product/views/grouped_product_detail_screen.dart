@@ -34,7 +34,6 @@ class _GroupedProductDetailScreenState
     super.initState();
     if (_isProductAvailable) {
       if (_isFlowerProduct) {
-        // Initialize with the first generation and update the product accordingly
         _selectedGeneration = widget.products.first.generation;
         _selectedProduct = widget.products.firstWhereOrNull(
           (p) => p.generation == _selectedGeneration,
@@ -45,8 +44,36 @@ class _GroupedProductDetailScreenState
     }
   }
 
-  // This method is no longer needed as the logic is moved into onSelected
-  // void _updateSelectedProduct() { ... }
+  // Method to show the "Added to Cart" modal sheet
+  void _showAddedToCartSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(defaultPadding),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor, // Use a themed color
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Added to Cart", style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: defaultPadding),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 48)),
+              onPressed: () {
+                Navigator.pop(context); // Close the modal sheet
+                Navigator.pushNamed(context, 'cartScreenRoute'); // Correct route name
+              },
+              child: const Text("Go to Cart"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +112,9 @@ class _GroupedProductDetailScreenState
             }
             final cartService = Provider.of<CartService>(context, listen: false);
             cartService.addItem(product, _quantity, selectedForm: _selectedForm);
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Added to cart!'), backgroundColor: successColor),
-            );
+
+            // Replace the SnackBar with the new modal sheet
+            _showAddedToCartSheet(context);
         },
       ),
       body: ListView(
@@ -97,13 +124,28 @@ class _GroupedProductDetailScreenState
             height: 250,
             child: NetworkImageWithLoader(product.imageUrl, radius: 16),
           ),
+          
+          // --- NEW: Disclaimer is added here ---
+          if (_isFlowerProduct)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                "Image is for illustrative purposes only. Product is sold per gram/joint.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontStyle: FontStyle.italic,
+                  color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
+                ),
+              ),
+            ),
+
           const SizedBox(height: defaultPadding),
 
           if (_isFlowerProduct) ...[
             Text("Selected Strain: ${product.strainName}", style: Theme.of(context).textTheme.headlineSmall),
             const SizedBox(height: 8),
 
-            // FIX #2: Removed the .copyWith(color: primaryColor) to inherit the theme color
             Text(currencyFormatter.format(price), style: Theme.of(context).textTheme.titleLarge),
             const Divider(height: defaultPadding * 2),
 
@@ -114,15 +156,13 @@ class _GroupedProductDetailScreenState
               children: widget.products.map((p) => p.generation!).toSet().toList().map((gen) => ChoiceChip(
                 label: Text(gen),
                 selected: _selectedGeneration == gen,
-                // FIX #1: Combined state updates into a single setState call
                 onSelected: (selected) {
                   setState(() {
                     _selectedGeneration = gen;
-                    // Find the product that matches the NEWLY selected generation
                     _selectedProduct = widget.products.firstWhereOrNull(
                       (p) => p.generation == _selectedGeneration,
                     );
-                    _quantity = 1; // Reset quantity when variation changes
+                    _quantity = 1;
                   });
                 },
               )).toList(),
@@ -139,8 +179,6 @@ class _GroupedProductDetailScreenState
           ] else ... [
              Text(product.strainName ?? '', style: Theme.of(context).textTheme.headlineSmall),
              const SizedBox(height: 8),
-
-             // FIX #2 also applied here for non-flower products
              Text(currencyFormatter.format(price), style: Theme.of(context).textTheme.titleLarge),
           ],
 

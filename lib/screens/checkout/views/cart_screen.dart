@@ -15,6 +15,27 @@ import 'components/user_info_popup.dart';
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
+  // ## FIX APPLIED HERE ##
+  // This logic now covers all specified categories.
+  String _getUnitOfSale(String category) {
+    final lowerCategory = category.toLowerCase();
+
+    // Handles 'Flowers' category, assigning 'gram'
+    if (lowerCategory.contains('flower')) {
+      return 'gram';
+    }
+    // Handles 'Edibles' category, assigning 'pair'
+    if (lowerCategory.contains('edible')) {
+      return 'pair';
+    }
+    // Handles 'Ointments' category, assigning 'container'
+    if (lowerCategory.contains('ointment')) {
+      return 'container';
+    }
+    // Default for all other categories (like Pre-roll), assigning 'piece'
+    return 'piece';
+  }
+
   void _handleCheckout(BuildContext context) {
     final cartService = Provider.of<CartService>(context, listen: false);
 
@@ -78,53 +99,73 @@ class CartScreen extends StatelessWidget {
       ),
       body: Consumer<CartService>(
         builder: (context, cartService, child) {
-          return cartService.items.isEmpty
-              ? const Center(
-                  child: Text("Your Cart is empty.",
-                      style: TextStyle(fontSize: 18, color: Colors.grey)))
-              : Column(
+          if (cartService.items.isEmpty) {
+            return const Center(
+                child: Text("Your Cart is empty.",
+                    style: TextStyle(fontSize: 18, color: Colors.grey)));
+          }
+
+          final totalQuantity = cartService.items.fold<int>(
+            0,
+            (sum, item) => sum + item.quantity,
+          );
+
+          String? commonUnitOfSale;
+          if (cartService.items.isNotEmpty) {
+            final firstItemUnit =
+                _getUnitOfSale(cartService.items.first.product.category);
+            final allUnitsMatch = cartService.items.every(
+                (item) => _getUnitOfSale(item.product.category) == firstItemUnit);
+
+            if (allUnitsMatch) {
+              commonUnitOfSale = firstItemUnit;
+            }
+          }
+
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(defaultPadding),
+                  itemCount: cartService.items.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: defaultPadding),
+                  itemBuilder: (context, index) {
+                    final item = cartService.items[index];
+                    return CartItemCard(item: item);
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: defaultPadding,
+                  right: defaultPadding,
+                  top: defaultPadding,
+                  bottom: defaultPadding + bottomPadding + floatingBarHeight,
+                ),
+                child: Column(
                   children: [
-                    Expanded(
-                      child: ListView.separated(
-                        padding: const EdgeInsets.all(defaultPadding),
-                        itemCount: cartService.items.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: defaultPadding),
-                        itemBuilder: (context, index) {
-                          final item = cartService.items[index];
-                          return CartItemCard(item: item);
-                        },
-                      ),
+                    OrderSummaryCard(
+                      subTotal: cartService.subtotal,
+                      totalQuantity: totalQuantity,
+                      unitOfSale: commonUnitOfSale,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: defaultPadding,
-                        right: defaultPadding,
-                        top: defaultPadding,
-                        bottom: defaultPadding +
-                            bottomPadding +
-                            floatingBarHeight,
-                      ),
-                      child: Column(
-                        children: [
-                          OrderSummaryCard(subTotal: cartService.subtotal),
-                          const SizedBox(height: defaultPadding),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () => _handleCheckout(context),
-                              // --- FIX IS HERE ---
-                              // The button text is updated.
-                              child: const Text("Place Order"),
-                            ),
-                          ),
-                        ],
+                    const SizedBox(height: defaultPadding),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => _handleCheckout(context),
+                        child: const Text("Checkout"),
                       ),
                     ),
                   ],
-                );
+                ),
+              ),
+            ],
+          );
         },
       ),
     );
   }
 }
+

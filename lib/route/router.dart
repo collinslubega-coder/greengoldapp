@@ -11,6 +11,7 @@ import 'package:green_gold/screens/admin/views/admin_hubs_screen.dart';
 import 'package:green_gold/screens/admin/views/admin_lobby_screen.dart';
 import 'package:green_gold/screens/admin/views/admin_music_screen.dart';
 import 'package:green_gold/screens/admin/views/admin_products_screen.dart';
+import 'package:green_gold/screens/checkout/views/cart_screen.dart';
 // --- FIX IS HERE: Added the missing import for the new screen ---
 import 'package:green_gold/screens/hubs/entertainment_hub/views/cast_detail_screen.dart';
 

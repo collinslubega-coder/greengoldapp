@@ -9,6 +9,8 @@ class Product {
   final double? price;
   final bool isAvailable;
   final String? imageUrl;
+  // --- NEW: Add the unitOfSale property ---
+  final String unitOfSale;
 
   Product({
     required this.id,
@@ -19,6 +21,8 @@ class Product {
     this.price,
     required this.isAvailable,
     this.imageUrl,
+    // --- NEW: Add to constructor with a default value ---
+    this.unitOfSale = 'piece',
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -31,6 +35,8 @@ class Product {
       price: (json['price'] as num?)?.toDouble(),
       isAvailable: json['is_available'] as bool? ?? false,
       imageUrl: json['image_url'] as String?,
+      // --- NEW: Read the value from Supabase ---
+      unitOfSale: json['unit_of_sale'] as String? ?? 'piece',
     );
   }
 
@@ -44,6 +50,8 @@ class Product {
       'price': price,
       'is_available': isAvailable,
       'image_url': imageUrl,
+      // --- NEW: Add to the toJson method ---
+      'unit_of_sale': unitOfSale,
     };
   }
 }
