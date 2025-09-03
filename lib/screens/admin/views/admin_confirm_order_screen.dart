@@ -50,6 +50,19 @@ class _AdminConfirmOrderScreenState extends State<AdminConfirmOrderScreen> {
     super.dispose();
   }
 
+  // Helper function to get the plural form of a unit based on quantity
+  String _getPluralUnit(String unit, int quantity) {
+    if (quantity == 1) {
+      return unit;
+    }
+    // Handles specific units and adds 's' for plural
+    if (unit == 'piece' || unit == 'gram' || unit == 'pair') {
+      return '${unit}s';
+    }
+    // Fallback for other cases
+    return '${unit}s';
+  }
+
   void _updateMessagePreview() {
     final currencyFormatter = NumberFormat.currency(locale: 'en_UG', symbol: 'UGX ');
     final customerName = widget.order.customerName ?? 'Valued Customer';
@@ -69,13 +82,15 @@ class _AdminConfirmOrderScreenState extends State<AdminConfirmOrderScreen> {
       } else if (category == 'Edibles') {
         unit = 'pair';
       } else if (category == 'Ointments & Accessories') {
-        unit = 'container';
+        unit = 'piece';
       }
       
+      final pluralUnit = _getPluralUnit(unit, quantity);
+      
       if (category == 'Flowers') {
-        return "- ${item.product?.type ?? productName} ($form): $quantity $unit";
+        return "- ${item.product?.type ?? productName} ($form): $quantity $pluralUnit";
       } else {
-        return "- $productName: $quantity $unit";
+        return "- $productName: $quantity $pluralUnit";
       }
     }).join('\n');
     

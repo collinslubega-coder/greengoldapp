@@ -28,9 +28,9 @@ class CartScreen extends StatelessWidget {
     if (lowerCategory.contains('edible')) {
       return 'pair';
     }
-    // Handles 'Ointments & Accessories' category, assigning 'container'
+    // Handles 'Ointments & Accessories' category, assigning 'piece'
     if (lowerCategory.contains('ointment')) {
-      return 'container';
+      return 'piece';
     }
     // Default for all other categories (like Pre-roll), assigning 'piece'
     return 'piece';
