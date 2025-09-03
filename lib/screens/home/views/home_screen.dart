@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final SupabaseProductService _service = SupabaseProductService();
   late Future<List<Product>> _productsFuture;
 
-  final List<String> _categories = ["Flowers", "Ointments", "Edibles"];
+  final List<String> _categories = ["Flowers", "Ointments & Accessories", "Edibles"];
   late String _selectedCategory;
 
   @override

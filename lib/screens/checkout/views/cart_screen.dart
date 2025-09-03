@@ -28,7 +28,7 @@ class CartScreen extends StatelessWidget {
     if (lowerCategory.contains('edible')) {
       return 'pair';
     }
-    // Handles 'Ointments' category, assigning 'container'
+    // Handles 'Ointments & Accessories' category, assigning 'container'
     if (lowerCategory.contains('ointment')) {
       return 'container';
     }

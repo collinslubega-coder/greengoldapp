@@ -68,7 +68,7 @@ class _AdminConfirmOrderScreenState extends State<AdminConfirmOrderScreen> {
         unit = (form == 'Bud') ? 'gram' : 'piece';
       } else if (category == 'Edibles') {
         unit = 'pair';
-      } else if (category == 'Ointments') {
+      } else if (category == 'Ointments & Accessories') {
         unit = 'container';
       }
       

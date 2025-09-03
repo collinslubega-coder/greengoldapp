@@ -19,7 +19,7 @@ class HomeCategoryFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     // Categories for your cannabis shop products
     final List<Map<String, String>> categories = [
-      {"name": "Ointments", "icon": "assets/icons/cannabis_oil.svg"},
+      {"name": "Ointments & Accessories", "icon": "assets/icons/cannabis_oil.svg"},
       {"name": "Edibles", "icon": "assets/icons/cannabis_edible.svg"},
       {"name": "Flowers", "icon": "assets/icons/cannabis_bud.svg"}, // Renamed from "Bud"
       // REMOVED: "Pre-rolls" category
