@@ -125,20 +125,49 @@ class _GroupedProductDetailScreenState
             child: NetworkImageWithLoader(product.imageUrl, radius: 16),
           ),
           
-          // --- NEW: Disclaimer is added here ---
-          if (_isFlowerProduct)
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text(
-                "Image is for illustrative purposes only. Product is sold per gram/joint.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontStyle: FontStyle.italic,
-                  color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
-                ),
-              ),
-            ),
+          
+      // --- NEW: Disclaimer is added here ---
+if (_isFlowerProduct)
+  Padding(
+    padding: const EdgeInsets.only(top: 8.0),
+    child: Text(
+      "Image is for illustrative purposes only. Product is sold per GRAM / JOINT.",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 12,
+        fontStyle: FontStyle.italic,
+        color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
+      ),
+    ),
+  )
+else if (product.category == "Edibles")
+  Padding(
+    padding: const EdgeInsets.only(top: 8.0),
+    child: Text(
+      "Image is for illustrative purposes only. Product is sold per PAIR.",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 12,
+        fontStyle: FontStyle.italic,
+        color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
+      ),
+    ),
+  )
+else if (product.category == "Ointments & Accessories")
+  Padding(
+    padding: const EdgeInsets.only(top: 8.0),
+    child: Text(
+      "Image is for illustrative purposes only. Product is sold per PIECE.",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 12,
+        fontStyle: FontStyle.italic,
+        color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.7),
+      ),
+    ),
+  )
+else
+  const SizedBox.shrink(),
 
           const SizedBox(height: defaultPadding),
 
