@@ -35,8 +35,8 @@ Future<void> main() async {
   );
 
   await Supabase.initialize(
-    url: 'https://dvywdzjwtgxdghihmnoc.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2eXdkemp3dGd4ZGdoaWhtbm9jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyNjg5MDEsImV4cCI6MjA3MDg0NDkwMX0.Zwn7JzEDPxZZOnJVY4m9RqQeP1aOtn-TK_xn3x2f_oI',
+    url: 'https://dzddxcamivibccwokgnt.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR6ZGR4Y2FtaXZpYmNjd29rZ250Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcwNTYzMzQsImV4cCI6MjA3MjYzMjMzNH0.iBqZMdEBoBs7I_jabjkmQlRIoKgVi4M2T6j6vYysh3s',
   );
   await notificationService.init();
 

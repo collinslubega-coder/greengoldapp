@@ -55,9 +55,9 @@ class SupabaseProductService {
   Future<String> uploadImage(File imageFile) async {
     try {
       final String fileName = 'product_${_uuid.v4()}.jpg';
-      final String path = 'product-images/$fileName';
-      await _supabase.storage.from('product-images').upload(path, imageFile);
-      return _supabase.storage.from('product-images').getPublicUrl(path);
+      final String path = 'product_images/$fileName';
+      await _supabase.storage.from('product_images').upload(path, imageFile);
+      return _supabase.storage.from('product_images').getPublicUrl(path);
     } catch (e) {
       debugPrint('Error uploading image: $e');
       rethrow;
