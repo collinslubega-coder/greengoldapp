@@ -20,8 +20,10 @@ class _ContactSettingsScreenState extends State<ContactSettingsScreen> {
     'head_office_whatsapp',
     'support_email',
     'company_whatsapp_group_link',
-    'tiktok_link',
     'instagram_link',
+    'android_apk_link',
+    'latest_app_version',
+    'latest_release_notes',
   ];
 
   void _deleteSetting(String key) async {

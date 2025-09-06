@@ -76,7 +76,17 @@ class ProfileScreen extends StatelessWidget {
                     Navigator.pushNamed(context, myOrdersScreenRoute);
                   },
                 ),
+
+                 _buildProfileOption(
+                  context,
+                  icon: Icons.system_update_alt_outlined, // or Icons.download
+                  title: "App Download & Updates",
+                  onTap: () {
+                    Navigator.pushNamed(context, releaseHubScreenRoute);
+                  },
+                ),
                 const Divider(height: defaultPadding * 2),
+                
 
                 // Help Center Options
                 _buildProfileOption(

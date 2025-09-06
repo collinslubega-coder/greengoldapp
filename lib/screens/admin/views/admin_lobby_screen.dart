@@ -6,6 +6,7 @@ import 'package:green_gold/models/order_model.dart';
 import 'package:green_gold/services/user_data_service.dart';
 import 'package:provider/provider.dart';
 import 'package:green_gold/screens/admin/views/contact_settings_screen.dart';
+import 'package:green_gold/route/route_constants.dart';
 
 // Import screens for navigation
 import 'package:green_gold/screens/admin/views/admin_hubs_screen.dart';
@@ -149,6 +150,13 @@ class _AdminLobbyScreenState extends State<AdminLobbyScreen> {
                     title: "Contact & Link Settings",
                     icon: Icons.link,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ContactSettingsScreen())),
+                  ),
+
+                   const SizedBox(height: defaultPadding / 2),
+                  _ActionCard(
+                    title: "Manage App Releases",
+                    icon: Icons.system_update_alt,
+                    onTap: () => Navigator.pushNamed(context, adminReleaseScreenRoute),
                   ),
 
                   const SizedBox(height: kToolbarHeight + defaultPadding),

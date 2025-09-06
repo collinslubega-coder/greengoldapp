@@ -24,6 +24,7 @@ const String adminMusicScreenRoute = "admin_music";
 const String addEditMusicScreenRoute = "admin_edit_music";
 const String adminConfirmOrderScreenRoute = "admin_confirm_order";
 const String adminEntryPointRoute = "admin_entry_point";
+const String adminReleaseScreenRoute = "admin_release_screen";
 
 
 // Profile & Other Routes
@@ -33,6 +34,7 @@ const String faqScreenRoute = "faq";
 const String safetyTipsAndGuidesScreenRoute = "safety_tips_and_guides";
 const String supportCenterRoute = "support_center";
 const String settingsScreenRoute = "settings";
+const String releaseHubScreenRoute = "release_hub";
 
 // Hubs & Content
 const String hubsEntryPointRoute = "hubs";

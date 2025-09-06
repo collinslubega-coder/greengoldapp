@@ -12,8 +12,9 @@ import 'package:green_gold/screens/admin/views/admin_lobby_screen.dart';
 import 'package:green_gold/screens/admin/views/admin_music_screen.dart';
 import 'package:green_gold/screens/admin/views/admin_products_screen.dart';
 import 'package:green_gold/screens/checkout/views/cart_screen.dart';
-// --- FIX IS HERE: Added the missing import for the new screen ---
+import 'package:green_gold/screens/profile/views/release_hub_screen.dart';
 import 'package:green_gold/screens/hubs/entertainment_hub/views/cast_detail_screen.dart';
+import 'package:green_gold/screens/admin/views/admin_release_screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -57,6 +58,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const SupportCenterScreen());
     case settingsScreenRoute:
       return MaterialPageRoute(builder: (_) => const SettingsScreen());
+    case releaseHubScreenRoute:
+      return MaterialPageRoute(builder: (_) => const ReleaseHubScreen());
 
     // Hubs Routes
     case castDetailScreenRoute:
@@ -96,6 +99,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
        return MaterialPageRoute(builder: (_) => const AdminHubsScreen());
     case adminMusicScreenRoute:
        return MaterialPageRoute(builder: (_) => const AdminMusicScreen());
+    case adminReleaseScreenRoute:
+        return MaterialPageRoute(builder: (_) => const AdminReleaseScreen());
 
     default:
       // Default to the main entry point if a route is not found
